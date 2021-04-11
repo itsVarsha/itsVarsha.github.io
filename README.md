@@ -1,40 +1,18 @@
 ## Welcome
 
 **Meet Varsha Sharma..**
+
 **A Backend Developer for.....**
 - **Android in Java and Kotlin**
 - **Desktop Applications in Csharp**
 - **Websites in Php**
 
+###My projects:
 
-### Markdown
+1. [Simple Chatty Bot](https://github.com/itsVarsha/Simple-Chatty-Bot) using Kotlin.
+3. [Notepad](https://github.com/itsVarsha/MyNotepad) created in C# (C Sharp).
+4. [Master Mind Game](https://github.com/itsVarsha/Mastermind-Game-in-kotlin) using Kotlin.
+5. [Word Guessing Game](https://github.com/itsVarsha/Nice-String-in-Kotlin) using Kotlin.
+6. [Bot to Download SnapChat Memories](https://github.com/itsVarsha/download-snap-memories) in Python.
+7. [Email Creator for schools and colleges](https://github.com/itsVarsha/email-creator)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/itsVarsha/itsVarsha.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
