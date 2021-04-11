@@ -7,7 +7,7 @@
 - **Desktop Applications in Csharp**
 - **Websites in Php**
 
-###My projects:
+**My projects:**
 
 1. [Simple Chatty Bot](https://github.com/itsVarsha/Simple-Chatty-Bot) using Kotlin.
 3. [Notepad](https://github.com/itsVarsha/MyNotepad) created in C# (C Sharp).
