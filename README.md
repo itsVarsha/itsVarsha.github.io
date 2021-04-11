@@ -10,10 +10,8 @@
 ##### For Front end and Backend of website, Android Application Development or Desktop Application Development. . .
 
 ### Contact me here: 
-####  Gmail: 
-      2520varsha@gmail.com
-####  Outlook: 
-      varsha2520@outlook.com
+Gmail: 2520varsha@gmail.com
+Outlook: varsha2520@outlook.com
 ####  [LinkedIn](https://www.linkedin.com/in/varsha7/)
 ####  [Github](https://github.com/itsVarsha)
 
