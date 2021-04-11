@@ -27,4 +27,5 @@ varsha2520@outlook.com
 6. [Word Guessing Game](https://github.com/itsVarsha/Nice-String-in-Kotlin) using Kotlin.
 7. [Bot to Download SnapChat Memories](https://github.com/itsVarsha/download-snap-memories) in Python.
 8. [Email Creator for schools and colleges](https://github.com/itsVarsha/email-creator)
+9. [Calculator](https://github.com/itsVarsha/Calculator-in-C-sharp) using C# (C Sharp).
 
