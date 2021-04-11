@@ -11,9 +11,9 @@
 
 ### Contact me here: 
 ####  Gmail: 
-2520varsha@gmail.com
+      2520varsha@gmail.com
 ####  Outlook: 
-varsha2520@outlook.com
+      varsha2520@outlook.com
 ####  [LinkedIn](https://www.linkedin.com/in/varsha7/)
 ####  [Github](https://github.com/itsVarsha)
 
