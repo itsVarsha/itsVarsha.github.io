@@ -1,8 +1,8 @@
 ## Welcome
 
 **Meet Varsha Sharma..**
-**A Backend Developer for.....
-- Android in Java and Kotlin**
+**A Backend Developer for.....**
+- **Android in Java and Kotlin**
 - **Desktop Applications in Csharp**
 - **Websites in Php**
 
