@@ -1,15 +1,17 @@
 ## Welcome
 
-**Meet Varsha Sharma..**
+**Varsha Sharma..**
 
 **A Backend Developer for.....**
 - **Android in Java and Kotlin**
 - **Desktop Applications in Csharp**
 - **Websites in Php**
 
+##### For Front end and Backend of website, Android Application Development or Desktop Application Development. . .
+
 ### Contact me here: 
 ####  [LinkedIn](https://www.linkedin.com/in/varsha7/)
-####  Email: 2520varsha@gmail.com
+####  [Gmail](2520varsha@gmail.com)
 ####  [Github](https://github.com/itsVarsha)
 
 ## **My projects:**
