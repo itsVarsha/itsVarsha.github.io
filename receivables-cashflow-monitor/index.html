@@ -38,62 +38,55 @@
 <p class="crumbs"><a href="../index.html#projects">Solution showcase</a> / Receivables and cash-flow monitor</p>
 <div class="pillars"><span class="pillar p-data">Data and reporting</span><span class="pillar p-flow">Workflow automation</span></div>
 <h1>Receivables and cash-flow monitor</h1>
-<p class="lead">See who owes what, who to chase first, whether collections are slowing down and what cash to expect over the next eight weeks.</p>
+<dl class="summary"><div><dt>Problem</dt><dd>Profit looks fine on paper but cash is tight, and nobody can see who pays late or what cash is coming in.</dd></div><div><dt>What I built</dt><dd>A receivables monitor with ageing, a DSO trend, a daily collections list and an eight-week cash view.</dd></div><div><dt>What it saves</dt><dd>The monthly ageing report and the guesswork about who to chase first.</dd></div></dl><p class="neutral-note">Built on a realistic dataset modelled on a UAE distributor.</p>
 </div></section>
 
-<section class="section" aria-labelledby="p-title"><div class="wrap stack">
-<h2 id="p-title">The problem</h2>
+<section class="section alt" aria-labelledby="r-title"><div class="wrap stack">
+<h2 id="r-title">Results at 30 Sep 2026</h2>
+<div class="kpis"><div class="kpi"><div class="k-label">Open receivables</div><div class="k-value">AED 2.74M</div></div><div class="kpi"><div class="k-label">Overdue</div><div class="k-value">AED 579K</div><div class="k-note">21.1% of open</div></div><div class="kpi"><div class="k-label">DSO now</div><div class="k-value">67 days</div><div class="k-note">62 days a year ago</div></div><div class="kpi"><div class="k-label">Expected in next 4 weeks</div><div class="k-value">AED 1.41M</div></div></div>
+<div class="chart-grid two">
+<div class="chart-card"><h3>Receivables ageing by branch</h3><div class="chart-box"><canvas id="c-ageing" role="img" aria-label="Receivables ageing by branch chart"></canvas></div></div>
+<div class="chart-card"><h3>DSO trend</h3><div class="chart-box"><canvas id="c-dso" role="img" aria-label="DSO trend chart"></canvas></div></div>
+</div>
+<div class="chart-grid two">
+<div class="chart-card"><h3>Cash flow by month</h3><div class="chart-controls seg" id="seg-cash" role="group" aria-label="Chart view"><button type="button" data-value="flow" aria-pressed="true">In, out and balance</button><button type="button" data-value="mix" aria-pressed="false">Cash out by category</button></div><div class="chart-box"><canvas id="c-cash" role="img" aria-label="Cash flow by month chart"></canvas></div></div>
+<div class="chart-card"><h3>Expected collections, next 8 weeks</h3><div class="chart-box"><canvas id="c-expected" role="img" aria-label="Expected collections, next 8 weeks chart"></canvas></div></div>
+</div>
+<div class="chart-card"><h3>Who to chase first</h3><p class="sub">Top 15 customers.
+<label style="white-space:nowrap;margin-left:.3rem"><input type="checkbox" id="only-limit"> Over credit limit only</label></p>
+<div class="table-wrap" id="t-priority"></div></div>
+</div></section>
+<section class="section" aria-label="How it was built"><div class="wrap"><details class="how"><summary>How it was built</summary><div class="how-body stack"><h3>The problem in detail</h3>
 <div class="prose"><p>The business is profitable on paper but cash is often tight. The aged receivables report is exported once a month, the sales team does not see which customers are late, and nobody can say with confidence how much cash will come in over the next few weeks.</p>
 <p>The owner wants to know who to chase first, whether collections are getting slower, and what the bank balance will look like after payroll and supplier payments.</p></div>
-</div></section>
-<section class="section alt" aria-labelledby="d-title"><div class="wrap stack">
-<h2 id="d-title">The data</h2>
-<p class="section-lead" style="margin-bottom:0">Built on a realistic dataset modelled on a UAE distributor. Three tables: customers with credit terms and limits, every invoice and credit note with its payment date, and the bank account movements.</p>
+<h3>The data</h3>
+<p>Three tables: customers with credit terms and limits, every invoice and credit note with its payment date, and the bank account movements.</p>
 <div class="table-wrap"><table class="data"><thead><tr><th scope="col">Table</th><th scope="col" class="num">Rows</th><th scope="col">Contents and columns</th></tr></thead><tbody><tr><td><code>customers.csv</code></td><td class="num">450</td><td>Customer master with credit terms and limits.<br><span style="color:var(--muted);font-size:.82rem">customer_id, customer_name, channel, branch, emirate, credit_terms_days, salesperson, credit_limit</span></td></tr><tr><td><code>invoices.csv</code></td><td class="num">29,913</td><td>Invoice headers with 5% VAT, due date and payment date (blank if still open).<br><span style="color:var(--muted);font-size:.82rem">invoice_no, invoice_date, customer_id, branch, net_amount, vat_amount, amount_incl_vat, due_date, paid_date, paid_amount</span></td></tr><tr><td><code>bank_transactions.csv</code></td><td class="num">26,322</td><td>Bank movements: customer receipts, supplier payments, payroll, rent, VAT and others.<br><span style="color:var(--muted);font-size:.82rem">txn_id, txn_date, category, customer_id, reference, amount</span></td></tr><tr><td><strong>Total</strong></td><td class="num"><strong>56,685</strong></td><td>Generated by <code>generate_data.py</code> with a fixed seed (20261001), 24 months.</td></tr></tbody></table></div>
-</div></section>
-<section class="section" aria-labelledby="a-title"><div class="wrap stack">
-<h2 id="a-title">Approach</h2>
+<h3>Approach</h3>
 <div class="prose"><ol>
 <li><strong>Receivables as at any date.</strong> An invoice is open on a date if it was issued on or before that date and not yet paid. This gives the AR balance for every month end, not only today.</li>
 <li><strong>Ageing.</strong> Open amounts are grouped by days past the due date: not yet due, 1 to 30, 31 to 60, 61 to 90 and over 90 days.</li>
 <li><strong>DSO trend.</strong> Days sales outstanding = open receivables divided by the last 90 days of credit sales, times 90, at each month end. It is shown against the average credit terms (about 50 days).</li>
 <li><strong>Collections priority.</strong> Score = overdue amount, weighted up for the age of the oldest overdue invoice, for exceeding the credit limit and for a slow payment history over the last 12 months. Each customer gets a suggested action.</li>
-<li><strong>Cash-flow view.</strong> Bank movements are grouped by category per month, with the closing balance. Expected collections for the next 8 weeks use each customer's own average lateness.</li>
+<li><strong>Cash-flow view.</strong> Bank movements are grouped by category per month, with the closing balance. Expected collections for the next 8 weeks use each customer's own average lateness; a further AED 382K is expected after that.</li>
 </ol>
 <p>The rules are written in Python here (<code>analyse_receivables.py</code>); in a client build they become Power BI measures, with Power Automate sending the alerts.</p></div>
-</div></section>
-<section class="section alt" aria-labelledby="r-title"><div class="wrap stack">
-<h2 id="r-title">Results</h2>
-<p class="section-lead" style="margin-bottom:0">Snapshot date 30 Sep 2026. All figures are computed by the script from the dataset.</p>
-<div class="kpis"><div class="kpi"><div class="k-label">Open receivables (incl. VAT)</div><div class="k-value">AED 2.74M</div><div class="k-note">2,415 open invoices</div></div><div class="kpi"><div class="k-label">Overdue</div><div class="k-value">AED 579K</div><div class="k-note">21.1% of open receivables</div></div><div class="kpi"><div class="k-label">DSO now</div><div class="k-value">67 days</div><div class="k-note">62 days a year earlier</div></div><div class="kpi"><div class="k-label">Expected collections, next 4 weeks</div><div class="k-value">AED 1.41M</div><div class="k-note">based on each customer's payment habits</div></div></div>
-<div class="chart-grid two">
-<div class="chart-card"><h3>Receivables ageing by branch</h3><p class="sub">Open amounts by days past due date.</p><div class="chart-box"><canvas id="c-ageing" role="img" aria-label="Receivables ageing by branch chart"></canvas></div></div>
-<div class="chart-card"><h3>DSO trend</h3><p class="sub">Month-end DSO against average credit terms, with the open receivables balance.</p><div class="chart-box"><canvas id="c-dso" role="img" aria-label="DSO trend chart"></canvas></div></div>
-</div>
-<div class="chart-grid two">
-<div class="chart-card"><h3>Cash flow by month</h3><p class="sub">Cash in, cash out and closing bank balance. Switch to see what the cash was spent on.</p><div class="chart-controls seg" id="seg-cash" role="group" aria-label="Chart view"><button type="button" data-value="flow" aria-pressed="true">In, out and balance</button><button type="button" data-value="mix" aria-pressed="false">Cash out by category</button></div><div class="chart-box"><canvas id="c-cash" role="img" aria-label="Cash flow by month chart"></canvas></div></div>
-<div class="chart-card"><h3>Expected collections, next 8 weeks</h3><p class="sub">Open invoices placed in the week they are likely to be paid. A further AED 382K is expected after that.</p><div class="chart-box"><canvas id="c-expected" role="img" aria-label="Expected collections, next 8 weeks chart"></canvas></div></div>
-</div>
-<div class="chart-card"><h3>Collections priority list (top 15)</h3><p class="sub">147 customers have overdue invoices; the top 10 hold 47.0% of the overdue amount. 39 customers are over their credit limit.
-<label style="white-space:nowrap;margin-left:.3rem"><input type="checkbox" id="only-limit"> Only customers over their limit</label></p>
-<div class="table-wrap" id="t-priority"></div></div>
-<div class="callout"><p><strong>Overdue alerts.</strong> 40 customers meet the alert rule (more than AED 5,000 over 60 days past due, or over the credit limit). In a live setup each salesperson gets a daily email or Teams message listing only their own customers, and new orders for customers over their limit are flagged before dispatch.</p></div>
-</div></section>
-<section class="section" id="real-client" aria-labelledby="rc-title"><div class="wrap">
-<h2 id="rc-title">How it would work for a real client</h2>
+<h3>Results in detail</h3>
+<div class="prose"><p>Open receivables include VAT, across 2,415 open invoices. 147 customers have overdue invoices; the top 10 hold 47.0% of the overdue amount. 39 customers are over their credit limit.</p>
+<p><strong>Overdue alerts.</strong> 40 customers meet the alert rule (more than AED 5,000 over 60 days past due, or over the credit limit). In a live setup each salesperson gets a daily email or Teams message listing only their own customers, and new orders for customers over their limit are flagged before dispatch.</p></div>
+<h3>How it would work in your business</h3>
 <div class="two-col">
-<div class="card"><h3>Tools</h3><ul class="list"><li>Power BI for ageing, DSO and the cash view</li><li>Power Automate for daily overdue alerts per salesperson and a weekly collections list in Teams</li><li>SharePoint or OneDrive for exports of invoices, receipts and the bank statement</li><li>Optional: Power Apps for logging collection calls and promised payment dates</li></ul></div>
-<div class="card"><h3>What you provide</h3><ul class="list"><li>Exports of open and paid invoices, credit notes and customer receipts</li><li>Customer master with credit terms, limits and salesperson</li><li>Bank statement exports (CSV) and a list of recurring payments such as payroll and rent</li><li>Microsoft 365 with Power BI Pro licences</li><li>Agreement on the alert rules and who receives them</li></ul></div>
+<div class="card"><h4>Tools</h4><ul class="list"><li>Power BI for ageing, DSO and the cash view</li><li>Power Automate for daily overdue alerts per salesperson and a weekly collections list in Teams</li><li>SharePoint or OneDrive for exports of invoices, receipts and the bank statement</li><li>Optional: Power Apps for logging collection calls and promised payment dates</li></ul></div>
+<div class="card"><h4>What you provide</h4><ul class="list"><li>Exports of open and paid invoices, credit notes and customer receipts</li><li>Customer master with credit terms, limits and salesperson</li><li>Bank statement exports (CSV) and a list of recurring payments such as payroll and rent</li><li>Microsoft 365 with Power BI Pro licences</li><li>Agreement on the alert rules and who receives them</li></ul></div>
 </div>
-<div class="callout" style="margin-top:1.25rem"><p><strong>Indicative effort:</strong> about 2 to 3 weeks of build after the diagnostic, depending on how payments are recorded and how many bank accounts are involved. The scope and a fixed price are confirmed after the paid reporting diagnostic. Nothing on this page is a client result.</p></div>
-</div></section>
+<div class="callout"><p><strong>Indicative effort:</strong> about 2 to 3 weeks of build after the diagnostic, depending on how payments are recorded and how many bank accounts are involved. The scope and a fixed price are confirmed after the paid reporting diagnostic. Nothing on this page is a client result.</p></div></div></details></div></section>
 <section class="section alt" aria-labelledby="dl-title"><div class="wrap stack">
 <h2 id="dl-title">Downloads</h2>
-<div class="dl-list"><div class="dl-item"><div><div class="dl-name">receivables-cashflow-monitor-dataset.zip</div><div class="dl-desc">Dataset CSVs, scripts and a README (0.9 MB).</div></div><a class="btn btn-primary" href="downloads/receivables-cashflow-monitor-dataset.zip" download>Download</a></div><div class="dl-item"><div><div class="dl-name">analyse_receivables.py</div><div class="dl-desc">Computes ageing, DSO, the priority list, alerts and the cash view.</div></div><a class="btn btn-ghost" href="scripts/analyse_receivables.py" download>Download</a></div><div class="dl-item"><div><div class="dl-name">generate_data.py</div><div class="dl-desc">Generates the full dataset with a fixed seed.</div></div><a class="btn btn-ghost" href="../shared/generate_data.py" download>Download</a></div></div>
+<div class="dl-list"><div class="dl-item"><div><div class="dl-name">receivables-cashflow-monitor-dataset.zip</div><div class="dl-desc">Data, scripts and a README (0.9 MB).</div></div><a class="btn btn-primary" href="downloads/receivables-cashflow-monitor-dataset.zip" download>Download</a></div><div class="dl-item"><div><div class="dl-name">analyse_receivables.py</div><div class="dl-desc">Computes every figure on this page.</div></div><a class="btn btn-ghost" href="scripts/analyse_receivables.py" download>Download</a></div><div class="dl-item"><div><div class="dl-name">generate_data.py</div><div class="dl-desc">Recreates the full dataset.</div></div><a class="btn btn-ghost" href="../shared/generate_data.py" download>Download</a></div></div>
 </div></section>
 <section class="section" aria-labelledby="more-title"><div class="wrap">
-<h2 id="more-title">More from the solution showcase</h2>
-<div class="other-projects"><a href="../distributor-sales-stock-automation/index.html">Distributor sales and stock automation<span>Daily sales, stock ageing and reorder alerts, plus an automatic weekly email report.</span></a><a href="../ai-report-summariser/index.html">AI report summariser<span>A Python script that writes a plain-English monthly summary from the numbers, with no paid APIs.</span></a><a href="../order-status-chatbot/index.html">Order-status chatbot<span>A browser-based FAQ and order-lookup bot. Try it with example order numbers.</span></a></div>
+<h2 id="more-title">More solutions</h2>
+<div class="other-projects"><a href="../distributor-sales-stock-automation/index.html">Distributor sales and stock automation <span aria-hidden="true">&rarr;</span></a><a href="../ai-report-summariser/index.html">AI report summariser <span aria-hidden="true">&rarr;</span></a><a href="../order-status-chatbot/index.html">Order-status chatbot <span aria-hidden="true">&rarr;</span></a></div>
 <p style="margin-top:1.5rem"><a class="btn btn-primary" href="../index.html#contact">Book a free 20-minute check</a></p>
 </div></section>
 </main>
