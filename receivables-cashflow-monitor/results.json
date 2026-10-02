@@ -1,0 +1,22 @@
+{
+  "open_ar": 2741574,
+  "overdue": 578583,
+  "overdue_pct": 21.1,
+  "over_90": 132772,
+  "open_invoices": 2415,
+  "dso_now": 67.3,
+  "dso_year_ago": 62.1,
+  "dso_min": 53.7,
+  "dso_max": 67.3,
+  "weighted_terms_days": 50.1,
+  "customers_overdue": 147,
+  "customers_over_limit": 39,
+  "alert_customers": 40,
+  "top10_share_of_overdue_pct": 47.0,
+  "expected_next_4_weeks": 1407770,
+  "closing_cash": 1029074,
+  "lowest_month_end_cash": 422399,
+  "lowest_month": "Oct 2024",
+  "invoices_analysed": 29913,
+  "bank_rows": 26322
+}
