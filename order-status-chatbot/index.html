@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order-status chatbot | Solution showcase | Varsha Sharma</title>
+<meta name="description" content="Solution showcase: a browser-based order-status and FAQ chatbot in plain JavaScript, over a compact orders file.">
+<meta name="theme-color" content="#1B365D">
+<link rel="canonical" href="https://itsvarsha.github.io/order-status-chatbot/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Varsha Sharma">
+<meta property="og:title" content="Order-status chatbot | Solution showcase">
+<meta property="og:description" content="Solution showcase: a browser-based order-status and FAQ chatbot in plain JavaScript, over a compact orders file.">
+<meta property="og:url" content="https://itsvarsha.github.io/order-status-chatbot/">
+<meta property="og:image" content="https://itsvarsha.github.io/assets/og-image.jpg">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="../index.html" aria-label="Varsha Sharma, home">
+      <img src="../assets/favicon.svg" alt="" width="32" height="32">
+      <span>Varsha Sharma</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#projects">Solution showcase</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="wrap">
+<p class="crumbs"><a href="../index.html#projects">Solution showcase</a> / Order-status chatbot</p>
+<div class="pillars"><span class="pillar p-ai">AI solutions</span><span class="pillar p-flow">Integrations</span></div>
+<h1>Order-status chatbot</h1>
+<p class="lead">An order-tracking and FAQ assistant that runs in the browser. Type an order number or a question and see how routine customer messages could be answered automatically.</p>
+</div></section>
+
+<section class="section" aria-labelledby="bot-title"><div class="wrap stack">
+<h2 id="bot-title">Try the bot</h2>
+<p class="section-lead" style="margin-bottom:0">Runs entirely in your browser on 2,948 orders (192 KB). Type a question or tap an example. "Today" here is 30 Sep 2026.</p>
+<div class="chat">
+<div class="chat-head"><strong>Tidewell order assistant</strong><span id="bot-status">Loading orders...</span></div>
+<div class="chat-log" id="chat-log" aria-live="polite"></div>
+<form class="chat-form" id="chat-form" autocomplete="off"><label for="chat-input" class="skip">Message</label><input id="chat-input" type="text" placeholder="Type an order number or a question" maxlength="200"><button type="submit">Send</button></form>
+<div class="chat-chips">
+<span class="chip-label">Example questions</span>
+<button type="button" class="chip-btn" data-ask="Where is my order?">Where is my order?</button><button type="button" class="chip-btn" data-ask="What are your delivery times?">What are your delivery times?</button><button type="button" class="chip-btn" data-ask="How can I pay?">How can I pay?</button><button type="button" class="chip-btn" data-ask="My item arrived damaged">My item arrived damaged</button><button type="button" class="chip-btn" data-ask="Opening hours">Opening hours</button><button type="button" class="chip-btn" data-ask="cancel TW-78578">cancel TW-78578</button><button type="button" class="chip-btn" data-ask="Talk to a person">Talk to a person</button>
+<span class="chip-label">Example order numbers</span>
+<button type="button" class="chip-btn" data-ask="Where is order TW-78482?" title="Delivered late">TW-78482 (delivered late)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78537?" title="Delivered">TW-78537 (delivered)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78520?" title="Out for delivery">TW-78520 (out for delivery)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78563?" title="Packed">TW-78563 (packed)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78560?" title="Picking">TW-78560 (picking)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78578?" title="Received">TW-78578 (received)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78655?" title="On hold, credit check">TW-78655 (on hold)</button><button type="button" class="chip-btn" data-ask="Where is order TW-78260?" title="Cancelled">TW-78260 (cancelled)</button>
+</div>
+</div>
+<p style="font-size:.9rem;color:var(--muted)">In a live setup the bot would confirm the customer's account number or registered mobile before showing any order details.</p>
+</div></section>
+<section class="section alt" aria-labelledby="p-title"><div class="wrap stack">
+<h2 id="p-title">The problem</h2>
+<div class="prose"><p>Customer service spends a large part of the day answering the same messages: "Where is my order?", "When will it arrive?", "How do I pay?". Each one means looking up the order in the system and typing a reply on WhatsApp.</p>
+<p>A simple bot can answer the routine questions instantly, any time, and pass anything unusual to a person.</p></div>
+</div></section>
+<section class="section" aria-labelledby="d-title"><div class="wrap stack">
+<h2 id="d-title">The data</h2>
+<p class="section-lead" style="margin-bottom:0">Built on a realistic dataset modelled on a UAE distributor. Two tables, compacted into a small <code>orders.json</code> (dates stored as day offsets and customers stored once) so the page loads quickly.</p>
+<div class="table-wrap"><table class="data"><thead><tr><th scope="col">Table</th><th scope="col" class="num">Rows</th><th scope="col">Contents and columns</th></tr></thead><tbody><tr><td><code>customers.csv</code></td><td class="num">450</td><td>Customer master with credit terms and limits.<br><span style="color:var(--muted);font-size:.82rem">customer_id, customer_name, channel, branch, emirate, credit_terms_days, salesperson, credit_limit</span></td></tr><tr><td><code>orders.csv</code></td><td class="num">2,948</td><td>Customer orders for the last 75 days plus open orders.<br><span style="color:var(--muted);font-size:.82rem">order_id, order_date, promised_date, delivered_date, status, customer_id, branch, order_value, invoice_no, items</span></td></tr><tr><td><strong>Total</strong></td><td class="num"><strong>3,398</strong></td><td>Generated by <code>generate_data.py</code> with a fixed seed (20261001), 24 months.</td></tr></tbody></table></div>
+</div></section>
+<section class="section alt" aria-labelledby="a-title"><div class="wrap stack">
+<h2 id="a-title">Approach</h2>
+<div class="prose"><ol>
+<li><strong>Find the order number.</strong> A pattern match picks up "TW-12345", "tw 12345" or a bare five-digit number anywhere in the message.</li>
+<li><strong>Look it up and explain the status.</strong> Each status (received, picking, packed, out for delivery, delivered on time or late, on credit hold, cancelled) has its own reply template with the relevant dates.</li>
+<li><strong>Answer common questions.</strong> Keyword rules cover delivery times, payments, statements, returns, opening hours, cancellations and hand-over to a person.</li>
+<li><strong>Fall back politely.</strong> If nothing matches, the bot lists what it can do instead of guessing.</li>
+</ol><p>The bot is about 150 lines of plain JavaScript (<code>bot.js</code>), with no libraries and no data leaving the browser.</p></div>
+</div></section>
+<section class="section" aria-labelledby="r-title"><div class="wrap stack">
+<h2 id="r-title">Results</h2>
+<p class="section-lead" style="margin-bottom:0">Order metrics computed by <code>build_orders.py</code> from the dataset.</p>
+<div class="kpis"><div class="kpi"><div class="k-label">Orders in the dataset</div><div class="k-value">2,948</div><div class="k-note">333 customers</div></div><div class="kpi"><div class="k-label">Delivered on time</div><div class="k-value">93.6%</div><div class="k-note">of 2,698 delivered orders</div></div><div class="kpi"><div class="k-label">Average order to delivery</div><div class="k-value">1.8 days</div></div><div class="kpi"><div class="k-label">Open orders</div><div class="k-value">206</div><div class="k-note">11 on credit hold</div></div></div>
+<div class="chart-grid two">
+<div class="chart-card"><h3>Orders by status</h3><p class="sub">All orders.</p><div class="chart-box"><canvas id="c-status" role="img" aria-label="Orders by status chart"></canvas></div></div>
+<div class="chart-card"><h3>On-time delivery by emirate</h3><p class="sub">Lowest: Ras Al Khaimah (89.5%). Highest: Sharjah (96.8%).</p><div class="chart-box"><canvas id="c-emirate" role="img" aria-label="On-time delivery by emirate chart"></canvas></div></div>
+</div>
+<div class="chart-card"><h3>Orders per day by current status</h3><p class="sub">Last 75 days. Recent orders are still in progress.</p><div class="chart-box tall"><canvas id="c-daily" role="img" aria-label="Orders per day by current status chart"></canvas></div></div>
+</div></section>
+<section class="section" id="real-client" aria-labelledby="rc-title"><div class="wrap">
+<h2 id="rc-title">How it would work for a real client</h2>
+<div class="two-col">
+<div class="card"><h3>Tools</h3><ul class="list"><li>Website chat widget, or WhatsApp through the WhatsApp Business Platform and an approved provider</li><li>Power Automate or a small API connecting the bot to the order or accounting system</li><li>Optional: Microsoft Copilot Studio, depending on the client's licences</li><li>Power BI to track question types, response times and hand-overs</li></ul></div>
+<div class="card"><h3>What you provide</h3><ul class="list"><li>Read access to order status data (an export, a database view or an API)</li><li>Approved answers for FAQs, delivery areas, payment and return policies</li><li>A WhatsApp Business account if WhatsApp is used</li><li>Who should receive hand-overs, and during which hours</li><li>Rules for verifying a customer before order details are shown</li></ul></div>
+</div>
+<div class="callout" style="margin-top:1.25rem"><p><strong>Indicative effort:</strong> about 2 to 3 weeks for a first version with order lookup and FAQs, depending on how orders can be read from the client's system. The scope and a fixed price are confirmed after the paid reporting diagnostic. Nothing on this page is a client result.</p></div>
+</div></section>
+<section class="section alt" aria-labelledby="dl-title"><div class="wrap stack">
+<h2 id="dl-title">Downloads</h2>
+<div class="dl-list"><div class="dl-item"><div><div class="dl-name">order-status-chatbot-dataset.zip</div><div class="dl-desc">Dataset CSVs, scripts and a README (0.1 MB).</div></div><a class="btn btn-primary" href="downloads/order-status-chatbot-dataset.zip" download>Download</a></div><div class="dl-item"><div><div class="dl-name">build_orders.py</div><div class="dl-desc">Builds orders.json, the chart data and the metrics.</div></div><a class="btn btn-ghost" href="scripts/build_orders.py" download>Download</a></div><div class="dl-item"><div><div class="dl-name">bot.js</div><div class="dl-desc">The chatbot logic in plain JavaScript.</div></div><a class="btn btn-ghost" href="bot.js">Open</a></div><div class="dl-item"><div><div class="dl-name">orders.json</div><div class="dl-desc">The compact orders file used by the bot.</div></div><a class="btn btn-ghost" href="orders.json" download>Download</a></div><div class="dl-item"><div><div class="dl-name">generate_data.py</div><div class="dl-desc">Generates the full dataset with a fixed seed.</div></div><a class="btn btn-ghost" href="../shared/generate_data.py" download>Download</a></div></div>
+</div></section>
+<section class="section" aria-labelledby="more-title"><div class="wrap">
+<h2 id="more-title">More from the solution showcase</h2>
+<div class="other-projects"><a href="../distributor-sales-stock-automation/index.html">Distributor sales and stock automation<span>Daily sales, stock ageing and reorder alerts, plus an automatic weekly email report.</span></a><a href="../receivables-cashflow-monitor/index.html">Receivables and cash-flow monitor<span>AR ageing, overdue alerts, DSO trend, a collections priority list and a cash-flow view.</span></a><a href="../ai-report-summariser/index.html">AI report summariser<span>A Python script that writes a plain-English monthly summary from the numbers, with no paid APIs.</span></a></div>
+<p style="margin-top:1.5rem"><a class="btn btn-primary" href="../index.html#contact">Book a free 20-minute check</a></p>
+</div></section>
+</main>
+<footer class="site-footer">
+  <div class="wrap foot">
+    <p>Varsha Sharma, data, automation and AI solutions for UAE businesses. <a href="../index.html" style="color:#fff">Back to home</a></p>
+  </div>
+</footer>
+<script src="../assets/vendor/chart.umd.min.js"></script>
+<script src="../assets/js/charts-common.js"></script>
+<script src="data.js"></script><script src="app.js"></script><script src="bot.js"></script>
+</body>
+</html>

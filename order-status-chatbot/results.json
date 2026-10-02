@@ -1,0 +1,25 @@
+{
+  "orders": 2948,
+  "customers": 333,
+  "delivered": 2698,
+  "on_time_pct": 93.6,
+  "avg_lead_days": 1.8,
+  "open_orders": 206,
+  "on_hold": 11,
+  "cancelled": 44,
+  "worst_emirate": "Ras Al Khaimah",
+  "worst_emirate_on_time_pct": 89.5,
+  "best_emirate": "Sharjah",
+  "best_emirate_on_time_pct": 96.8,
+  "json_bytes": 197195,
+  "examples": {
+    "Delivered late": "TW-78482",
+    "Delivered": "TW-78537",
+    "Out for delivery": "TW-78520",
+    "Packed": "TW-78563",
+    "Picking": "TW-78560",
+    "Received": "TW-78578",
+    "On hold, credit check": "TW-78655",
+    "Cancelled": "TW-78260"
+  }
+}
