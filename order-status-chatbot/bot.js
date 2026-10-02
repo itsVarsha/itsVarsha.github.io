@@ -60,7 +60,7 @@
   }
   form.addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); input.value = ''; input.focus(); });
   document.querySelectorAll('[data-ask]').forEach(function (b) { b.addEventListener('click', function () { ask(b.dataset.ask); }); });
-  say('Hi, I am the Tidewell order assistant. Type an order number to track it, or ask about delivery, payments, returns or opening hours.');
+  say('Hi, I am the order assistant. Type an order number to track it, or ask about delivery, payments, returns or opening hours.');
   fetch('orders.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
     DB = j; asOf = new Date(j.asOf + 'T00:00:00Z');
     j.orders.forEach(function (r) { byId[r[0]] = r; });
