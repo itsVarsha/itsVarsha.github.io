@@ -271,3 +271,34 @@ table.data code{font-size:.82rem;background:var(--bg);padding:.05rem .3rem;borde
 .contact-loc{color:#fff;font-weight:600;margin:-1rem 0 1.5rem}
 table.data td .pill{white-space:normal;line-height:1.35}
 .section:not(.alt):not(.contact)+.section:not(.alt):not(.contact){border-top:1px solid var(--line)}
+
+/* ================= simplified project pages ================= */
+.summary{display:grid;gap:.5rem;max-width:52rem;margin:1.1rem 0 0}
+.summary>div{display:grid;grid-template-columns:9rem 1fr;gap:1rem;align-items:baseline;background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:8px;padding:.65rem 1rem}
+.summary>div:first-child{border-left-color:var(--red)}
+.summary dt{font-size:.8rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em}
+.summary dd{margin:0;font-size:1.02rem;color:var(--ink)}
+.neutral-note{font-size:.9rem;color:var(--muted);margin:.9rem 0 0}
+.email-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;background:#fff;border:1px solid var(--line);border-left:4px solid var(--sand);border-radius:10px;padding:.9rem 1.1rem}
+.email-cta p{margin:0}
+.email-cta .btn{padding:.55rem 1rem;font-size:.92rem}
+details.how{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);border-top:4px solid var(--navy)}
+details.how>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.3rem;font-size:1.2rem;font-weight:700;color:var(--navy);border-radius:var(--r)}
+details.how>summary::-webkit-details-marker{display:none}
+details.how>summary::after{content:"";flex:none;width:.6rem;height:.6rem;border-right:2.5px solid var(--teal-d);border-bottom:2.5px solid var(--teal-d);transform:rotate(45deg);margin-right:.3rem;transition:transform .15s}
+details.how[open]>summary::after{transform:rotate(-135deg)}
+details.how>summary:hover{background:var(--bg)}
+.how-body{padding:1.2rem 1.3rem 1.4rem;border-top:1px solid var(--line)}
+.how-body>h3{margin-top:1.6rem}
+.how-body>h3:first-child{margin-top:0}
+.how-body h4{color:var(--navy);margin:0 0 .6rem;font-size:1rem}
+.how-body .kpis{margin-top:0}
+/* main page cards */
+.proj-card .proj-line{position:relative;padding-left:1.2rem;color:var(--muted);font-size:.97rem;margin-bottom:.5rem}
+.proj-card .proj-line::before{content:"";position:absolute;left:0;top:.5em;width:.55rem;height:.55rem;border-radius:2px;background:var(--red)}
+.proj-card .proj-line.res{color:var(--ink);font-weight:600;margin-bottom:1rem}
+.proj-card .proj-line.res::before{border-radius:50%;background:var(--teal)}
+.proj-btn{margin-top:auto;align-self:flex-start;padding:.6rem 1.05rem;font-size:.92rem}
+.proj-card:hover .proj-btn{background:#18665c}
+@media (max-width:639px){.summary>div{grid-template-columns:1fr;gap:.1rem}.how-body{padding:1rem}details.how>summary{padding:.9rem 1rem}}
+.other-projects a span[aria-hidden="true"]{display:inline;font-weight:700;color:var(--teal-d);font-size:1rem}
