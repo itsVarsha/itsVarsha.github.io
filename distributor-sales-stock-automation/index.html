@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributor sales and stock automation | Solution showcase | Varsha Sharma</title>
+<meta name="description" content="Solution showcase: daily sales, stock ageing and reorder alerts for a distributor, plus an automated weekly email report via Power Automate.">
+<meta name="theme-color" content="#1B365D">
+<link rel="canonical" href="https://itsvarsha.github.io/distributor-sales-stock-automation/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Varsha Sharma">
+<meta property="og:title" content="Distributor sales and stock automation | Solution showcase">
+<meta property="og:description" content="Solution showcase: daily sales, stock ageing and reorder alerts for a distributor, plus an automated weekly email report via Power Automate.">
+<meta property="og:url" content="https://itsvarsha.github.io/distributor-sales-stock-automation/">
+<meta property="og:image" content="https://itsvarsha.github.io/assets/og-image.jpg">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="../index.html" aria-label="Varsha Sharma, home">
+      <img src="../assets/favicon.svg" alt="" width="32" height="32">
+      <span>Varsha Sharma</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#projects">Solution showcase</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="wrap">
+<p class="crumbs"><a href="../index.html#projects">Solution showcase</a> / Distributor sales and stock automation</p>
+<div class="pillars"><span class="pillar p-data">Data and reporting</span><span class="pillar p-flow">Workflow automation</span></div>
+<h1>Distributor sales and stock automation</h1>
+<p class="lead">Daily sales, stock ageing and reorder alerts for a three-depot distributor, with a weekly email that builds itself. See exactly how it works, step by step.</p>
+</div></section>
+
+<section class="section" aria-labelledby="p-title"><div class="wrap stack">
+<h2 id="p-title">The problem</h2>
+<div class="prose"><p>A distributor with three depots sells around 290 items to about 450 shops, restaurants and hotels. Sales come out of the accounting system, stock is checked in spreadsheets, and the buyer reorders once a week from memory and a printout. By the time someone notices that a fast seller is short, it is already out of stock in one depot, while slow items sit on the shelf for months.</p>
+<p>Management wants three things: daily sales they can trust, an early warning when items need ordering, and a clear view of old stock. And they want a short summary in their inbox every Monday without anyone building it by hand.</p></div>
+</div></section>
+<section class="section alt" aria-labelledby="d-title"><div class="wrap stack">
+<h2 id="d-title">The data</h2>
+<p class="section-lead" style="margin-bottom:0">Built on a realistic dataset modelled on a UAE distributor. Seven tables covering 24 months; the full dataset used across the showcase has 192,043 rows.</p>
+<div class="table-wrap"><table class="data"><thead><tr><th scope="col">Table</th><th scope="col" class="num">Rows</th><th scope="col">Contents and columns</th></tr></thead><tbody><tr><td><code>products.csv</code></td><td class="num">291</td><td>Item master: 8 categories, invented brands, list price, cost and supplier lead time.<br><span style="color:var(--muted);font-size:.82rem">sku, product_name, brand, category, unit_price, unit_cost, lead_time_days</span></td></tr><tr><td><code>customers.csv</code></td><td class="num">450</td><td>Customer master with credit terms and limits.<br><span style="color:var(--muted);font-size:.82rem">customer_id, customer_name, channel, branch, emirate, credit_terms_days, salesperson, credit_limit</span></td></tr><tr><td><code>sales_lines.csv</code></td><td class="num">117,615</td><td>Invoice lines, 1 Oct 2024 to 30 Sep 2026. Credit notes (CN) have negative quantities.<br><span style="color:var(--muted);font-size:.82rem">invoice_no, invoice_date, customer_id, branch, sku, qty, unit_price, discount_pct, net_amount, cost_amount</span></td></tr><tr><td><code>purchase_receipts.csv</code></td><td class="num">12,210</td><td>Goods received from suppliers, created by the reorder simulation.<br><span style="color:var(--muted);font-size:.82rem">receipt_id, receipt_date, branch, sku, qty, unit_cost, amount</span></td></tr><tr><td><code>stock_lots_snapshot.csv</code></td><td class="num">1,171</td><td>Stock on hand at 30 Sep 2026 by receipt lot (first in, first out), used for ageing.<br><span style="color:var(--muted);font-size:.82rem">branch, sku, receipt_date, qty_on_hand, unit_cost</span></td></tr><tr><td><code>reorder_settings.csv</code></td><td class="num">847</td><td>Reorder level (lead time plus two weeks of demand) and order quantity.<br><span style="color:var(--muted);font-size:.82rem">sku, branch, reorder_level, reorder_qty</span></td></tr><tr><td><code>open_purchase_orders.csv</code></td><td class="num">276</td><td>Supplier orders not yet received at the snapshot date.<br><span style="color:var(--muted);font-size:.82rem">po_id, branch, sku, qty_on_order, expected_date</span></td></tr><tr><td><strong>Total</strong></td><td class="num"><strong>132,860</strong></td><td>Generated by <code>generate_data.py</code> with a fixed seed (20261001), 24 months.</td></tr></tbody></table></div>
+</div></section>
+<section class="section" aria-labelledby="a-title"><div class="wrap stack">
+<h2 id="a-title">Approach</h2>
+<div class="prose"><ol>
+<li><strong>Land the exports.</strong> Daily exports (sales lines, stock on hand, open purchase orders) are saved to a SharePoint folder, either scheduled from the accounting system or by a Power Automate flow.</li>
+<li><strong>Clean and model.</strong> Power Query appends and cleans the files; the model is a simple star schema with sales, stock and purchase facts and item, customer, branch and date dimensions.</li>
+<li><strong>Define the rules once.</strong> Days of cover = stock on hand divided by average daily demand over the last 90 days. An item needs ordering when stock on hand plus stock on order is below its reorder level. Stock-out risk = days of cover shorter than the supplier lead time. Stock age comes from receipt-date lots, first in, first out.</li>
+<li><strong>Refresh and alert.</strong> The dataset refreshes every morning; the reorder list and the weekly email are generated from the same model, so the numbers always match the dashboard.</li>
+</ol>
+<p>Here the same rules are written in Python (<code>analyse_sales_stock.py</code>) so that anyone can rerun them; in a client build they become Power BI measures.</p></div>
+</div></section>
+<section class="section alt" aria-labelledby="r-title"><div class="wrap stack">
+<h2 id="r-title">Results</h2>
+<p class="section-lead" style="margin-bottom:0">Snapshot date 30 Sep 2026. All figures are computed by the script from the dataset.</p>
+<div class="kpis"><div class="kpi"><div class="k-label">Net sales, last 12 months</div><div class="k-value">AED 16.11M</div><div class="k-note">+8.9% on the prior 12 months</div></div><div class="kpi"><div class="k-label">Gross margin, last 12 months</div><div class="k-value">21.4%</div></div><div class="kpi"><div class="k-label">Items to reorder now</div><div class="k-value">75</div><div class="k-note">item and branch lines, 42 at stock-out risk</div></div><div class="kpi"><div class="k-label">Stock older than 180 days</div><div class="k-value">AED 91K</div><div class="k-note">8.7% of AED 1.04M stock at cost</div></div></div>
+<div class="chart-grid two">
+<div class="chart-card"><h3>Daily net sales, last 90 days</h3><p class="sub">Bars are daily sales; the line is the 7-day average. Fridays are lighter.</p><div class="chart-box"><canvas id="c-daily" role="img" aria-label="Daily net sales, last 90 days chart"></canvas></div></div>
+<div class="chart-card"><h3>Stock ageing by branch</h3><p class="sub">Stock value at cost by age of the receipt lot.</p><div class="chart-box"><canvas id="c-ageing" role="img" aria-label="Stock ageing by branch chart"></canvas></div></div>
+</div>
+<div class="chart-card"><h3>Monthly net sales</h3><p class="sub">24 months. Switch between category split and total.</p><div class="chart-controls seg" id="seg-monthly" role="group" aria-label="Chart view"><button type="button" data-value="cat" aria-pressed="true">By category</button><button type="button" data-value="total" aria-pressed="false">Total</button></div><div class="chart-box tall"><canvas id="c-monthly" role="img" aria-label="Monthly net sales chart"></canvas></div></div>
+<div class="chart-card"><h3>Reorder alerts (top 15 by days of cover)</h3><p class="sub">Below reorder level with nothing on order. Filter by branch:
+<select class="inline" id="alert-branch" aria-label="Filter reorder alerts by branch"><option value="all">All branches</option><option>Jebel Ali DC</option><option>Al Quoz Depot</option><option>Sharjah Depot</option></select></p>
+<div class="table-wrap" id="t-alerts"></div></div>
+<div class="chart-card"><h3>Oldest stock (over 180 days)</h3><p class="sub">106 item and branch lines hold stock older than 180 days; 77 of them sold nothing in the last 90 days.</p>
+<div class="table-wrap" id="t-slow"></div></div>
+</div></section>
+<section class="section" aria-labelledby="e-title"><div class="wrap stack">
+<h2 id="e-title">The automated weekly email</h2>
+<p class="section-lead" style="margin-bottom:0">Below is the example email for the week ending Sunday 27 Sep 2026, rendered by the script from the dataset. Week net sales: AED 295K, -7.3% on the previous week.</p>
+<iframe class="email-frame" src="example-weekly-email.html" title="Example weekly sales and stock email" loading="lazy"></iframe>
+<p><a href="example-weekly-email.html" target="_blank" rel="noopener">Open the example email in a new tab</a></p>
+<h3>How Power Automate would send it</h3>
+<ol class="flow">
+<li><strong>Recurrence trigger:</strong> every Monday at 7:00 am, UAE time.</li>
+<li><strong>Run a query against a dataset</strong> (Power BI connector): pulls last week's KPIs, branch totals, top customers and the reorder list from the published model, so the email always matches the dashboard.</li>
+<li><strong>Create HTML table</strong> and <strong>Compose</strong>: places the values into an HTML template like the one above.</li>
+<li><strong>Send an email (V2)</strong> (Office 365 Outlook) to the management list, and optionally <strong>Post message in a chat or channel</strong> in Microsoft Teams.</li>
+<li><strong>Run after failure branch:</strong> if the refresh failed or a query returns nothing, a short alert goes to the report owner instead of a wrong email.</li>
+</ol>
+</div></section>
+<section class="section" id="real-client" aria-labelledby="rc-title"><div class="wrap">
+<h2 id="rc-title">How it would work for a real client</h2>
+<div class="two-col">
+<div class="card"><h3>Tools</h3><ul class="list"><li>Power BI (Pro licences) for the dashboard and scheduled refresh</li><li>Power Query to clean and combine exports</li><li>SharePoint or OneDrive as the landing folder for exports</li><li>Power Automate for the weekly email, Teams posts and failure alerts</li><li>Optional: Python for one-off data checks during the diagnostic</li></ul></div>
+<div class="card"><h3>What you provide</h3><ul class="list"><li>Regular exports of sales invoices, item master and stock on hand (by batch or receipt date if available)</li><li>Open purchase orders and any existing reorder levels</li><li>Microsoft 365 with Power BI Pro licences</li><li>A contact who can answer questions for 1 to 2 hours a week</li><li>The list of people who should receive the weekly email</li></ul></div>
+</div>
+<div class="callout" style="margin-top:1.25rem"><p><strong>Indicative effort:</strong> about 2 to 4 weeks of build after the diagnostic, depending on the number of data sources and branches. The scope and a fixed price are confirmed after the paid reporting diagnostic. Nothing on this page is a client result.</p></div>
+</div></section>
+<section class="section alt" aria-labelledby="dl-title"><div class="wrap stack">
+<h2 id="dl-title">Downloads</h2>
+<div class="dl-list"><div class="dl-item"><div><div class="dl-name">distributor-sales-stock-automation-dataset.zip</div><div class="dl-desc">Dataset CSVs, scripts and a README (1.5 MB).</div></div><a class="btn btn-primary" href="downloads/distributor-sales-stock-automation-dataset.zip" download>Download</a></div><div class="dl-item"><div><div class="dl-name">analyse_sales_stock.py</div><div class="dl-desc">Computes every figure, chart dataset and the example email.</div></div><a class="btn btn-ghost" href="scripts/analyse_sales_stock.py" download>Download</a></div><div class="dl-item"><div><div class="dl-name">generate_data.py</div><div class="dl-desc">Generates the full dataset with a fixed seed.</div></div><a class="btn btn-ghost" href="../shared/generate_data.py" download>Download</a></div><div class="dl-item"><div><div class="dl-name">example-weekly-email.html</div><div class="dl-desc">The example email as a standalone HTML file.</div></div><a class="btn btn-ghost" href="example-weekly-email.html">Open</a></div></div>
+</div></section>
+<section class="section" aria-labelledby="more-title"><div class="wrap">
+<h2 id="more-title">More from the solution showcase</h2>
+<div class="other-projects"><a href="../receivables-cashflow-monitor/index.html">Receivables and cash-flow monitor<span>AR ageing, overdue alerts, DSO trend, a collections priority list and a cash-flow view.</span></a><a href="../ai-report-summariser/index.html">AI report summariser<span>A Python script that writes a plain-English monthly summary from the numbers, with no paid APIs.</span></a><a href="../order-status-chatbot/index.html">Order-status chatbot<span>A browser-based FAQ and order-lookup bot. Try it with example order numbers.</span></a></div>
+<p style="margin-top:1.5rem"><a class="btn btn-primary" href="../index.html#contact">Book a free 20-minute check</a></p>
+</div></section>
+</main>
+<footer class="site-footer">
+  <div class="wrap foot">
+    <p>Varsha Sharma, data, automation and AI solutions for UAE businesses. <a href="../index.html" style="color:#fff">Back to home</a></p>
+  </div>
+</footer>
+<script src="../assets/vendor/chart.umd.min.js"></script>
+<script src="../assets/js/charts-common.js"></script>
+<script src="data.js"></script><script src="app.js"></script>
+</body>
+</html>

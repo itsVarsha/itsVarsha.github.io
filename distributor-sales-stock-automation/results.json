@@ -1,0 +1,19 @@
+{
+  "net_sales_last_12m": 16112821,
+  "net_sales_prior_12m": 14797495,
+  "growth_pct": 8.9,
+  "gross_margin_pct": 21.4,
+  "stock_value": 1042206,
+  "aged_180_value": 90996,
+  "aged_180_pct": 8.7,
+  "reorder_alerts": 75,
+  "stockout_risk": 42,
+  "zero_stock_lines": 71,
+  "sku_branch_lines": 847,
+  "sales_lines": 117615,
+  "week_sales": 295481,
+  "week_change_pct": -7.3,
+  "week_yoy_pct": 2.8,
+  "slow_lines": 106,
+  "slow_no_sales_90d": 77
+}
